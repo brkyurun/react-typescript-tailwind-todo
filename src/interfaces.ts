@@ -1,6 +1,6 @@
 export interface TaskInterface {
   title: string;
-  description: string;
+  description?: string;
 }
 
 export interface TasksInterface {
