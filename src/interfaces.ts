@@ -6,3 +6,7 @@ export interface TaskInterface {
 export interface TasksInterface {
   tasks: TaskInterface[];
 }
+
+export interface TaskForm {
+  taskOnSubmit: () => void;
+}
