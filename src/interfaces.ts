@@ -1,13 +1,6 @@
-export interface TaskInterface {
+export type TTaskInterface = {
   title: string;
   description?: string;
-  id: number;
-}
-
-export interface TasksInterface {
-  tasks: TaskInterface[];
-}
-
-export interface TaskForm {
-  taskOnSubmit: (event: Event) => void;
-}
+  id?: string;
+  onClick?: () => void;
+};

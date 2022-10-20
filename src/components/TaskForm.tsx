@@ -1,6 +1,15 @@
-import { TaskFormInterface } from "../interfaces";
+import { useState } from "react";
 
-function TaskForm({ taskOnSubmit }: TaskFormInterface) {
+export interface TaskFormInterface {
+  taskOnSubmit: () => void;
+  taskOnChange: () => void;
+  value: {
+    title: string;
+    description: string;
+  };
+}
+
+function TaskForm({ taskOnSubmit, taskOnChange, value }: TaskFormInterface) {
   return (
     <form
       onSubmit={taskOnSubmit}
@@ -14,6 +23,8 @@ function TaskForm({ taskOnSubmit }: TaskFormInterface) {
         <input
           type="text"
           id="taskTitle"
+          onChange={taskOnChange}
+          value={value.title}
           className="ml-4 w-1/2 px-3 py-1 rounded shadow-md"
         />
       </label>
@@ -25,6 +36,8 @@ function TaskForm({ taskOnSubmit }: TaskFormInterface) {
         <input
           type="text"
           id="taskDescription"
+          onChange={taskOnChange}
+          value={value.description}
           className="ml-4 w-1/2 px-3 py-1 rounded shadow-md"
         />
       </label>
