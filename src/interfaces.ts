@@ -1,6 +1,7 @@
 export interface TaskInterface {
   title: string;
   description?: string;
+  id: number;
 }
 
 export interface TasksInterface {
@@ -8,5 +9,5 @@ export interface TasksInterface {
 }
 
 export interface TaskForm {
-  taskOnSubmit: () => void;
+  taskOnSubmit: (event: Event) => void;
 }
