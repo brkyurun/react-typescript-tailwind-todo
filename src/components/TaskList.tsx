@@ -3,7 +3,7 @@ import { TTaskInterface } from "../interfaces";
 
 interface ITaskListProps {
   tasks: TTaskInterface[];
-  onClick: (taskId: string) => void;
+  onClick: (taskId?: string) => void;
 }
 
 function TaskList({ tasks, onClick }: ITaskListProps) {

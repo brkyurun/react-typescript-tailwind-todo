@@ -1,47 +1,33 @@
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { TaskList } from "./components/TaskList";
 import { TTaskInterface } from "./interfaces";
 import { TaskForm } from "./components/TaskForm";
 import uniqid from "uniqid";
 
-const exampleTasks: TTaskInterface[] = [
-  {
-    title: "title 1",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
-    id: uniqid(),
-  },
-  {
-    title: "title 2",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
-    id: uniqid(),
-  },
-  {
-    title: "title 3",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
-    id: uniqid(),
-  },
-];
-
 function App() {
-  const [tasks, setTasks] = useState(exampleTasks);
+  const [tasks, setTasks] = useState<TTaskInterface[]>(() =>
+    JSON.parse(localStorage.getItem("tasks") ?? "")
+  );
   const [task, setTask] = useState({
     title: "",
     description: "",
   });
 
-  function handleChange(event: Event) {
-    const eventName = event.target.id === "taskTitle" ? "title" : "description";
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
+
+  function handleChange(event?: ChangeEvent<HTMLInputElement>) {
+    const eventName =
+      event?.target.id === "taskTitle" ? "title" : "description";
     setTask({
       ...task,
-      [eventName]: event.target.value,
+      [eventName]: event?.target.value,
     });
   }
 
-  function handleSubmit(event: Event) {
-    event.preventDefault();
+  function handleSubmit(event: FormEvent<HTMLFormElement> | Event | undefined) {
+    event?.preventDefault();
     if (task.title.length <= 2) return;
     setTasks([
       ...tasks,
@@ -55,7 +41,7 @@ function App() {
       title: "👍🏻",
       description: "👍🏻",
     });
-    setInterval(() => {
+    setTimeout(() => {
       setTask({
         title: "",
         description: "",
@@ -63,15 +49,16 @@ function App() {
     }, 1000);
   }
 
-  function handleDelete(taskId: string) {
-    setTasks(tasks.filter((task) => task.id !== taskId));
+  function handleDelete(taskId?: string) {
+    Array.isArray(tasks) &&
+      setTasks(tasks.filter((task) => task.id !== taskId));
   }
 
   return (
     <div className="min-h-screen py-32 bg-sky-500 flex flex-col items-center gap-8">
       <TaskForm
-        taskOnSubmit={handleSubmit}
-        taskOnChange={handleChange}
+        taskOnSubmit={(event) => handleSubmit(event)}
+        taskOnChange={(event) => handleChange(event)}
         value={task}
       />
       <TaskList tasks={tasks} onClick={handleDelete} />

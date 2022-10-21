@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { ChangeEvent, FormEvent } from "react";
 
-export interface TaskFormInterface {
-  taskOnSubmit: () => void;
-  taskOnChange: () => void;
+interface TaskFormInterface {
+  taskOnSubmit: (event?: Event | FormEvent<HTMLFormElement>) => void;
+  taskOnChange: (event?: ChangeEvent<HTMLInputElement>) => void;
   value: {
     title: string;
     description: string;
@@ -12,7 +12,7 @@ export interface TaskFormInterface {
 function TaskForm({ taskOnSubmit, taskOnChange, value }: TaskFormInterface) {
   return (
     <form
-      onSubmit={taskOnSubmit}
+      onSubmit={(event) => taskOnSubmit(event)}
       className="w-1/2 bg-neutral-100 p-8 flex flex-col gap-4 items-left justify-between"
     >
       <label
@@ -23,7 +23,7 @@ function TaskForm({ taskOnSubmit, taskOnChange, value }: TaskFormInterface) {
         <input
           type="text"
           id="taskTitle"
-          onChange={taskOnChange}
+          onChange={(event) => taskOnChange(event)}
           value={value.title}
           className="ml-4 w-1/2 px-3 py-1 rounded shadow-md"
         />
@@ -36,7 +36,7 @@ function TaskForm({ taskOnSubmit, taskOnChange, value }: TaskFormInterface) {
         <input
           type="text"
           id="taskDescription"
-          onChange={taskOnChange}
+          onChange={(event) => taskOnChange(event)}
           value={value.description}
           className="ml-4 w-1/2 px-3 py-1 rounded shadow-md"
         />
